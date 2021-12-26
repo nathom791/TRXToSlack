@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TRXToSlack
 {
-    internal class SlackAPI
+    internal class SlackMessages
     {
         private static Settings settings = new Settings();
         private static string workingDir = Environment.CurrentDirectory;

@@ -5,11 +5,11 @@ using System.Xml;
 
 namespace TRXToSlack
 {
-    public class Program
+    public static class Program
     {
         public static string fileName;
         public static string SettingsFileName;
-        private static SlackAPI slack = new SlackAPI();
+        private static SlackMessages slack = new SlackMessages();
 
         private static async Task Main(string[] args)
         {
