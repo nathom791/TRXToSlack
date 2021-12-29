@@ -11,7 +11,7 @@ namespace TRXToSlack
         public string Start { get; set; }
         public string Finish { get; set; }
 
-        public string getDuration(TestResults result)
+        public static string GetDuration(TestResults result)
         {
             DateTime start = DateTime.Parse(result.Start);
             DateTime finish = DateTime.Parse(result.Finish);
@@ -21,12 +21,11 @@ namespace TRXToSlack
             return durationRounded.ToString();
         }
 
-        public decimal percentPassed(TestResults result)
+        public static decimal GetPercentPassed(TestResults result)
         {
             decimal passed = decimal.Parse(result.Passed);
             decimal failed = decimal.Parse(result.Failed);
             decimal total = decimal.Parse(result.Total);
-
 
             decimal temp = passed + failed;
             decimal skipped = total - temp;

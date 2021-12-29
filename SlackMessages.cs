@@ -10,8 +10,8 @@ namespace TRXToSlack
 {
     internal class SlackMessages
     {
-        private static Settings settings = new Settings();
-        private static string workingDir = Environment.CurrentDirectory;
+        private static readonly Settings settings = new();
+        private static readonly string workingDir = Environment.CurrentDirectory;
 
         public async Task SendToChannel(TestResults results, string settingsFileName)
         {
@@ -19,10 +19,10 @@ namespace TRXToSlack
 
             var WebHookUrl = settings.webhookUrl;
             var client = new SbmClient(WebHookUrl);
-            string duration = results.getDuration(results);
+            string duration = TestResults.GetDuration(results);
 
             string moodColor = "good";
-            decimal percentPassed = results.percentPassed(results);
+            decimal percentPassed = TestResults.GetPercentPassed(results);
             string skipped = (int.Parse(results.Total) - (int.Parse(results.Passed) + int.Parse(results.Failed))).ToString();
 
             if (percentPassed > 85)
@@ -38,14 +38,12 @@ namespace TRXToSlack
                 moodColor = "danger";
             }
 
-
-            string fileName = Program.fileName;
+            string fileName = Program.FileName;
             int index = fileName.IndexOf(".");
             if (index >= 0)
-                fileName = fileName.Substring(0, index);
+                fileName = fileName[..index];
 
-
-           fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
+           fileName = fileName[(fileName.LastIndexOf('\\') + 1)..];
 
             var message = new Message(fileName)
             {
@@ -94,7 +92,7 @@ namespace TRXToSlack
             await client.SendAsync(message);
         }
 
-        public void SetConfig(string settingsFileName)
+        public static void SetConfig(string settingsFileName)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder();
             builder.AddJsonFile(Path.Combine(workingDir, settingsFileName));

@@ -7,20 +7,21 @@ namespace TRXToSlack
 {
     public static class Program
     {
-        public static string fileName;
-        public static string SettingsFileName;
-        private static SlackMessages slack = new SlackMessages();
+        private static readonly SlackMessages slack = new();
+
+        public static string FileName { get; set; }
+        public static string SettingsFileName { get; set; }
 
         private static async Task Main(string[] args)
         {
-            fileName = Console.ReadLine();
-            SettingsFileName = Console.ReadLine();
-            //fileName = args[0];
-            //SettingsFileName = args[1];
+            //fileName = Console.ReadLine();
+            //SettingsFileName = Console.ReadLine();
+            FileName = args[0];
+            SettingsFileName = args[1];
 
             try
             {
-                await slack.SendToChannel(ParseTRX(fileName), SettingsFileName);
+                await slack.SendToChannel(ParseTRX(FileName), SettingsFileName);
             }
             catch (Exception e)
             {
@@ -30,13 +31,13 @@ namespace TRXToSlack
 
         public static TestResults ParseTRX(string fileName)
         {
-            TestResults testResults = new TestResults();
+            TestResults testResults = new();
 
             var filename = fileName;
             var currentDir = Directory.GetCurrentDirectory();
             var resultsFilePath = Path.Combine(currentDir, filename);
 
-            XmlDocument xmlDoc = new XmlDocument();
+            XmlDocument xmlDoc = new();
             xmlDoc.Load(resultsFilePath);
 
             XmlNodeList counters = xmlDoc.GetElementsByTagName("Counters");
