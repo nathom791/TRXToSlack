@@ -13,10 +13,10 @@ namespace TRXToSlack
 
         private static async Task Main(string[] args)
         {
-            //fileName = Console.ReadLine();
-            //SettingsFileName = Console.ReadLine();
-            fileName = args[0];
-            SettingsFileName = args[1];
+            fileName = Console.ReadLine();
+            SettingsFileName = Console.ReadLine();
+            //fileName = args[0];
+            //SettingsFileName = args[1];
 
             try
             {
@@ -44,6 +44,10 @@ namespace TRXToSlack
             testResults.Total = counters[0].Attributes["total"].Value;
             testResults.Passed = counters[0].Attributes["passed"].Value;
             testResults.Failed = counters[0].Attributes["failed"].Value;
+
+            XmlNodeList times = xmlDoc.GetElementsByTagName("Times");
+            testResults.Start = times[0].Attributes["start"].Value;
+            testResults.Finish = times[0].Attributes["finish"].Value;
 
             return testResults;
         }

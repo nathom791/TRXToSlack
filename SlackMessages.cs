@@ -19,9 +19,11 @@ namespace TRXToSlack
 
             var WebHookUrl = settings.webhookUrl;
             var client = new SbmClient(WebHookUrl);
+            string duration = results.getDuration(results);
 
             string moodColor = "good";
             decimal percentPassed = results.percentPassed(results);
+            string skipped = (int.Parse(results.Total) - (int.Parse(results.Passed) + int.Parse(results.Failed))).ToString();
 
             if (percentPassed > 85)
             {
@@ -36,7 +38,16 @@ namespace TRXToSlack
                 moodColor = "danger";
             }
 
-            var message = new Message(Program.fileName.Trim('.'))
+
+            string fileName = Program.fileName;
+            int index = fileName.IndexOf(".");
+            if (index >= 0)
+                fileName = fileName.Substring(0, index);
+
+
+           fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
+
+            var message = new Message(fileName)
             {
                 Attachments = new List<Attachment>
                 {
@@ -49,6 +60,13 @@ namespace TRXToSlack
                         {
                             Title = "Total",
                             Value = results.Total + $" - {percentPassed}%",
+                            Short = true
+                        },
+                        new Field
+                        {
+                            Title = "Skipped",
+                            Value = skipped,
+                            Short = true
                         },
                         new Field
                         {
@@ -60,6 +78,12 @@ namespace TRXToSlack
                         {
                             Title = "Failed",
                             Value = results.Failed,
+                            Short = true
+                        },
+                        new Field
+                        {
+                            Title = "Duration",
+                            Value = $"{duration} minutes",
                             Short = true
                         }
                     }
