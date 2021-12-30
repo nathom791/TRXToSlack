@@ -25,6 +25,7 @@ namespace TRXToSlack
             decimal percentPassed = TestResults.GetPercentPassed(results);
             string skipped = (int.Parse(results.Total) - (int.Parse(results.Passed) + int.Parse(results.Failed))).ToString();
 
+
             if (percentPassed > 85)
             {
                 moodColor = "good";
@@ -57,7 +58,7 @@ namespace TRXToSlack
                         new Field
                         {
                             Title = "Total",
-                            Value = results.Total + $" - {percentPassed}%",
+                            Value = results.Total + $" -  {percentPassed}%",
                             Short = true
                         },
                         new Field

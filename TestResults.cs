@@ -10,6 +10,7 @@ namespace TRXToSlack
         public string Failed { get; set; }
         public string Start { get; set; }
         public string Finish { get; set; }
+        public decimal Percentage { get; set; }
 
         public static string GetDuration(TestResults result)
         {
@@ -29,10 +30,10 @@ namespace TRXToSlack
 
             decimal temp = passed + failed;
             decimal skipped = total - temp;
-            decimal totalMinusSkipped = total - skipped;
+
+            decimal totalMinusSkipped = passed + skipped;
             decimal percentageUnrounded = (totalMinusSkipped / total) * 100;
-            decimal percentage = decimal.Round(percentageUnrounded, 2, MidpointRounding.AwayFromZero);
-            return percentage;
+            return decimal.Round(percentageUnrounded, 2, MidpointRounding.AwayFromZero);
         }
     }
 }

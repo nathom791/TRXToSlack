@@ -14,7 +14,7 @@ namespace TRXToSlack
 
         private static async Task Main(string[] args)
         {
-            //fileName = Console.ReadLine();
+            //FileName = Console.ReadLine();
             //SettingsFileName = Console.ReadLine();
             FileName = args[0];
             SettingsFileName = args[1];
